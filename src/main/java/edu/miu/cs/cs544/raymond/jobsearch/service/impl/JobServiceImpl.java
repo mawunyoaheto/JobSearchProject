@@ -16,19 +16,32 @@ public class JobServiceImpl implements JobService {
     @Autowired
     JobRepository jobRepository;
 
-    public List<Job> getAllJobs(){
-
-        return  jobRepository.findAll();
+    @Override
+    public List<Job> getAllJobs() {
+        return jobRepository.findAll();
     }
 
-    public Job getJob(long job_id){
+    @Override
+    public Job getJob(long job_id) {
         return jobRepository.getById(job_id);
     }
 
-    public Job addJob(Job job){
+    @Override
+    public Job addJob(Job job) {
         jobRepository.save(job);
         long savedJob = job.getId();
 
         return jobRepository.getById(savedJob);
+    }
+
+    @Override
+    public void updateJob(long job_id, Job jobDetails) {
+        Job job = jobRepository.getById(job_id);
+//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+    }
+
+    @Override
+    public void deleteJob(long job_id) {
+        jobRepository.deleteById(job_id);
     }
 }

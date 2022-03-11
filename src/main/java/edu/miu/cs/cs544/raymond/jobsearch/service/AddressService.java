@@ -9,4 +9,6 @@ public interface AddressService {
     public Address getAddressById(long address_id);
     public List<Address> getAllAddress();
     public void addAddress(Address address);
+    public void updateAddress(long address_id, Address addressDetails);
+    public void deleteAddress(long address_id);
 }

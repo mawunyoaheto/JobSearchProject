@@ -3,7 +3,7 @@ package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
 import edu.miu.cs.cs544.raymond.jobsearch.model.Company;
 import edu.miu.cs.cs544.raymond.jobsearch.model.Recruiter;
-import edu.miu.cs.cs544.raymond.jobsearch.repository.RecruiterRepository;
+import edu.miu.cs.cs544.raymond.jobsearch.service.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,36 +13,33 @@ import java.util.List;
 public class RecruiterController {
 
     @Autowired
-    RecruiterRepository recruiterRepository;
+    RecruiterService recruiterService;
 
     @GetMapping("/recruiters/{recruiter_id}")
     public Company getRecruiterById(@PathVariable long recruiter_id){
-        return  recruiterRepository.getById(recruiter_id);
+        return  recruiterService.getRecruiterById(recruiter_id);
     }
 
     @GetMapping("/recruiters")
     public List<Recruiter> getAllRecruiters(){
-        return recruiterRepository.findAll();
+        return recruiterService.getAllRecruiters();
     }
 
     @PostMapping("/recruiters")
     public Company addRecruiter(@RequestBody Recruiter recruiter){
-        recruiterRepository.save(recruiter);
+        recruiterService.addRecruiter(recruiter);
         long savedRecruiterId = recruiter.getId();
-        return recruiterRepository.getById(savedRecruiterId);
+        return recruiterService.getRecruiterById(savedRecruiterId);
     }
 
     @PutMapping("/recruiters/{recruiter_id}")
     public void updateRecruiter(@PathVariable long recruiter_id, @RequestBody Company recruiterDetails){
-        Company recruiter = recruiterRepository.getById(recruiter_id);
-
-
+        Company recruiter = recruiterService.getRecruiterById(recruiter_id);
 //                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
-
     }
 
     @DeleteMapping("recruiters/{recruiter_id}")
     public void deleteRecruiter(@PathVariable long recruiter_id){
-        recruiterRepository.deleteById(recruiter_id);
+        recruiterService.deleteRecruiter(recruiter_id);
     }
 }

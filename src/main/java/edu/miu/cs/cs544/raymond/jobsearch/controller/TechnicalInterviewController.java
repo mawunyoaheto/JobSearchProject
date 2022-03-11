@@ -1,7 +1,7 @@
 package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
 import edu.miu.cs.cs544.raymond.jobsearch.model.TechnicalInterview;
-import edu.miu.cs.cs544.raymond.jobsearch.repository.TechnicalInterviewRepository;
+import edu.miu.cs.cs544.raymond.jobsearch.service.TechnicalInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,34 +11,33 @@ import java.util.List;
 public class TechnicalInterviewController {
 
     @Autowired
-    TechnicalInterviewRepository technicalInterviewRepository;
+    TechnicalInterviewService technicalInterviewService;
 
     @GetMapping("/technicalinterviews/{interview_id}")
     public TechnicalInterview getTechnicalInterviewById(@PathVariable long interview_id){
-        return  technicalInterviewRepository.getById(interview_id);
+        return  technicalInterviewService.getTechnicalInterviewById(interview_id);
     }
 
     @GetMapping("/technicalinterviews")
     public List<TechnicalInterview> getAllTechnicalInterviews(){
-        return technicalInterviewRepository.findAll();
+        return technicalInterviewService.getAllTechnicalInterviews();
     }
 
     @PostMapping("/technicalinterviews")
     public TechnicalInterview addTechnicalInterview(@RequestBody TechnicalInterview technicalInterview){
-        technicalInterviewRepository.save(technicalInterview);
+        technicalInterviewService.addTechnicalInterview(technicalInterview);
         long savedTechnicalInterviewId = technicalInterview.getId();
-        return technicalInterviewRepository.getById(savedTechnicalInterviewId);
+        return technicalInterviewService.getTechnicalInterviewById(savedTechnicalInterviewId);
     }
 
     @PutMapping("/technicalinterviews/{interview_id}")
     public void updateTechnicalInterview(@PathVariable long interview_id, @RequestBody TechnicalInterview technicalInterview){
-        TechnicalInterview interview = technicalInterviewRepository.getById(interview_id);
+        TechnicalInterview interview = technicalInterviewService.getTechnicalInterviewById(interview_id);
 //                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
-
     }
 
     @DeleteMapping("technicalinterviews/{interview_id}")
     public void deleteTechnicalInterview(@PathVariable long interview_id){
-        technicalInterviewRepository.deleteById(interview_id);
+        technicalInterviewService.deleteTechnicalInterview(interview_id);
     }
 }

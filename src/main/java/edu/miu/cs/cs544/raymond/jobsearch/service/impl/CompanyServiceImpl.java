@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CompanyServiceImpl  implements CompanyService {
+public class CompanyServiceImpl implements CompanyService {
     @Autowired
     CompanyRepository companyRepository;
 
@@ -29,7 +29,18 @@ public class CompanyServiceImpl  implements CompanyService {
     public Company addCompany(Company company) {
         companyRepository.save(company);
         long savedCompany = company.getId();
-
         return companyRepository.getById(savedCompany);
     }
+
+    @Override
+    public void updateCompany(long company_id, Company companyDetails) {
+        Company company = companyRepository.getById(company_id);
+//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+    }
+
+    @Override
+    public void deleteCompany(long company_id) {
+        companyRepository.deleteById(company_id);
+    }
 }
+
