@@ -3,43 +3,42 @@ package edu.miu.cs.cs544.raymond.jobsearch.controller;
 import edu.miu.cs.cs544.raymond.jobsearch.model.Job;
 import edu.miu.cs.cs544.raymond.jobsearch.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 public class JobController {
 
-//    @Autowired
-//    JobRepository jobRepository;
-
     @Autowired
     JobService jobService;
 
-    @GetMapping("/jobs")
-    public List<Job> getAllJobs(){
-
-        return  jobService.getAllJobs();
+    @GetMapping(path="/jobs")
+    public ResponseEntity<List<Job>> getAllJobs(){
+        List<Job> listOfAllJobs = jobService.getAllJobs();
+        return new ResponseEntity<List<Job>>(listOfAllJobs, HttpStatus.OK);
     }
 
-    @GetMapping("/jobs/{job_id}")
+    @GetMapping(path="/jobs/{job_id}")
     public Job getJob(@PathVariable long job_id){
         return jobService.getJob(job_id);
     }
 
-    @PostMapping("/jobs")
-    public ResponseEntity<Job> addJob(@RequestBody Job job){
+    @PostMapping(path="/jobs")
+    public void addJob(@RequestBody Job job){
         jobService.addJob(job);
-        long savedJob = job.getId();
-        URI savedJobUri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{job_id}")
-                .buildAndExpand(savedJob)
-                .toUri();
-//        return jobService.getJob(savedJob);
-        return ResponseEntity.created(savedJobUri).build();
+    }
+
+    @PutMapping(path = "/jobs/{job_id}")
+    public void updateJob(@PathVariable long job_id, Job job){
+        jobService.updateJob(job_id,job);
+    }
+
+    @DeleteMapping(path="/jobs/{job_id}")
+    public ResponseEntity<Void> deleteJobById(@PathVariable long job_id){
+        jobService.deleteJob(job_id);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
     }
 }

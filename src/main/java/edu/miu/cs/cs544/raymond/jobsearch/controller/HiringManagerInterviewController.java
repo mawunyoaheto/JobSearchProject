@@ -13,31 +13,30 @@ public class HiringManagerInterviewController {
     @Autowired
     HiringManagerInterviewService hiringManagerInterviewService;
 
-    @GetMapping("/hiringmanagerinterviews/{interview_id}")
-    public HiringManagerInterview getHiringManagerInterviewById(@PathVariable long interview_id){
-        return  hiringManagerInterviewService.getHiringManagerInterviewById(interview_id);
+    @GetMapping(path = "/hiringmanagerinterviews/{interview_id}")
+    public HiringManagerInterview getHiringManagerInterviewById(@PathVariable long interview_id) {
+        return hiringManagerInterviewService.getHiringManagerInterviewById(interview_id);
     }
 
-    @GetMapping("/hiringmanagerinterviews")
-    public List<HiringManagerInterview> getAllHiringManagerInterviews(){
+    @GetMapping(path = "/hiringmanagerinterviews")
+    public List<HiringManagerInterview> getAllHiringManagerInterviews() {
         return hiringManagerInterviewService.getAllHiringManagerInterviews();
     }
 
-    @PostMapping("/hiringmanagerinterviews")
-    public HiringManagerInterview addHiringManagerInterview(@RequestBody HiringManagerInterview hiringManagerInterview){
+    @PostMapping(path = "/hiringmanagerinterviews")
+    public HiringManagerInterview addHiringManagerInterview(@RequestBody HiringManagerInterview hiringManagerInterview) {
         hiringManagerInterviewService.addHiringManagerInterview(hiringManagerInterview);
         long savedHiringManagerId = hiringManagerInterview.getId();
         return hiringManagerInterviewService.getHiringManagerInterviewById(savedHiringManagerId);
     }
 
-    @PutMapping("/hiringmanagerinterviews/{interview_id}")
-    public void updateHiringManagerInterview(@PathVariable long interview_id, @RequestBody HiringManagerInterview hiringManagerInterview){
-        HiringManagerInterview interview = hiringManagerInterviewService.getHiringManagerInterviewById(interview_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+    @PutMapping(path = "/hiringmanagerinterviews/{interview_id}")
+    public void updateHiringManagerInterview(@PathVariable long interview_id, @RequestBody HiringManagerInterview hiringManagerInterview) {
+        hiringManagerInterviewService.updateHiringManagerInterview(interview_id, hiringManagerInterview);
     }
 
-    @DeleteMapping("hiringmanagerinterviews/{interview_id}")
-    public void deleteHiringManagerInterview(@PathVariable long interview_id){
-       hiringManagerInterviewService.deleteHiringManagerInterview(interview_id);
+    @DeleteMapping(path = "hiringmanagerinterviews/{interview_id}")
+    public void deleteHiringManagerInterview(@PathVariable long interview_id) {
+        hiringManagerInterviewService.deleteHiringManagerInterview(interview_id);
     }
 }

@@ -6,9 +6,11 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.TechnicalInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class TechnicalInterviewImpl implements TechnicalInterviewService {
     @Autowired
     private TechnicalInterviewRepository technicalInterviewRepository;
@@ -31,7 +33,7 @@ public class TechnicalInterviewImpl implements TechnicalInterviewService {
 
     @Override
     public void updateTechnicalInterview(long interview_id, TechnicalInterview technicalInterview) {
-        TechnicalInterview interview = technicalInterviewRepository.getById(interview_id);
+        technicalInterviewRepository.save(technicalInterview);
     }
 
     @Override

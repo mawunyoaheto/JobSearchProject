@@ -6,9 +6,11 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class InterviewServiceImpl implements InterviewService {
     @Autowired
     InterviewRepository interviewRepository;
@@ -25,8 +27,7 @@ public class InterviewServiceImpl implements InterviewService {
 
     @Override
     public void updateInterview(long interview_id, Interview interviewDetails) {
-        Interview interview = interviewRepository.getById(interview_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        interviewRepository.save(interviewDetails);
     }
 
     @Override

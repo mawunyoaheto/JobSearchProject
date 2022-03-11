@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.raymond.jobsearch.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,15 +9,15 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Company {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany(mappedBy="company")
-
+    @OneToMany(mappedBy="company",cascade = CascadeType.ALL)
     private List<Job> jobs =new ArrayList<>();
 
     public Company() {
@@ -35,7 +36,7 @@ public class Company {
         this.name = name;
     }
 
-    @JsonManagedReference
+//    @JsonManagedReference
     public Address getAddress() {
         return address;
     }
@@ -44,7 +45,7 @@ public class Company {
         this.address = address;
     }
 
-    @JsonManagedReference
+//    @JsonManagedReference
     public List<Job> getJobs() {
         return jobs;
     }

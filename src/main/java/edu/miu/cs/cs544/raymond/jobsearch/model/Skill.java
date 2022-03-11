@@ -1,10 +1,12 @@
 package edu.miu.cs.cs544.raymond.jobsearch.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Skill {
     @Id
     @GeneratedValue
@@ -63,7 +65,7 @@ public class Skill {
         this.language = language;
     }
 
-    @JsonBackReference
+//    @JsonBackReference
     public Job getJob() {
         return job;
     }

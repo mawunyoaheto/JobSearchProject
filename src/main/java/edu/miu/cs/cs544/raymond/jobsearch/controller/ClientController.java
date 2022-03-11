@@ -12,30 +12,29 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    @GetMapping("/clients/{client_id}")
+    @GetMapping(path = "/clients/{client_id}")
     public Company getClientById(@PathVariable long client_id) {
         return clientService.getClientById(client_id);
     }
 
-    @GetMapping("/clients")
+    @GetMapping(path = "/clients")
     public List<Company> getAllClients() {
         return clientService.getAllClients();
     }
 
-    @PutMapping("/clients/{client_id}")
+    @PutMapping(path = "/clients/{client_id}")
     public void updateClient(@PathVariable long client_id, @RequestBody Company clientDetails) {
-        Company client = clientService.getClientById(client_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        clientService.updateClient(client_id, clientDetails);
     }
 
-    @PostMapping("/clients")
+    @PostMapping(path = "/clients")
     public Company addClient(@RequestBody Company client) {
         clientService.addClient(client);
         long savedClientId = client.getId();
         return clientService.getClientById(savedClientId);
     }
 
-    @DeleteMapping("clients/{client_id}")
+    @DeleteMapping(path = "clients/{client_id}")
     public void deleteClient(@PathVariable long client_id) {
         clientService.deleteClient(client_id);
     }

@@ -6,8 +6,10 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 @Service
+@Transactional
 public class ClientServiceImpl implements ClientService {
     @Autowired
     ClientRepository clientRepository;
@@ -23,8 +25,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void updateClient(long client_id, Company clientDetails) {
-        Company client = clientRepository.getById(client_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        clientRepository.save(clientDetails);
     }
 
     @Override

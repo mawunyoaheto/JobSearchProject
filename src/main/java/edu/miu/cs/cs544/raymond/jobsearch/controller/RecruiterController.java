@@ -15,31 +15,30 @@ public class RecruiterController {
     @Autowired
     RecruiterService recruiterService;
 
-    @GetMapping("/recruiters/{recruiter_id}")
-    public Company getRecruiterById(@PathVariable long recruiter_id){
-        return  recruiterService.getRecruiterById(recruiter_id);
+    @GetMapping(path = "/recruiters/{recruiter_id}")
+    public Company getRecruiterById(@PathVariable long recruiter_id) {
+        return recruiterService.getRecruiterById(recruiter_id);
     }
 
-    @GetMapping("/recruiters")
-    public List<Recruiter> getAllRecruiters(){
+    @GetMapping(path = "/recruiters")
+    public List<Recruiter> getAllRecruiters() {
         return recruiterService.getAllRecruiters();
     }
 
-    @PostMapping("/recruiters")
-    public Company addRecruiter(@RequestBody Recruiter recruiter){
+    @PostMapping(path = "/recruiters")
+    public Recruiter addRecruiter(@RequestBody Recruiter recruiter) {
         recruiterService.addRecruiter(recruiter);
         long savedRecruiterId = recruiter.getId();
         return recruiterService.getRecruiterById(savedRecruiterId);
     }
 
-    @PutMapping("/recruiters/{recruiter_id}")
-    public void updateRecruiter(@PathVariable long recruiter_id, @RequestBody Company recruiterDetails){
-        Company recruiter = recruiterService.getRecruiterById(recruiter_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+    @PutMapping(path = "/recruiters/{recruiter_id}")
+    public void updateRecruiter(@PathVariable long recruiter_id, @RequestBody Recruiter recruiterDetails) {
+        recruiterService.updateRecruiter(recruiter_id, recruiterDetails);
     }
 
-    @DeleteMapping("recruiters/{recruiter_id}")
-    public void deleteRecruiter(@PathVariable long recruiter_id){
+    @DeleteMapping(path = "recruiters/{recruiter_id}")
+    public void deleteRecruiter(@PathVariable long recruiter_id) {
         recruiterService.deleteRecruiter(recruiter_id);
     }
 }

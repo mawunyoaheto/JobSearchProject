@@ -10,5 +10,5 @@ public interface JobService {
     public Job getJob(long job_id);
     public Job addJob(Job job);
     public void updateJob(long job_id, Job jobDetails);
-    public void deleteJob(long skill_id);
+    public void deleteJob(long job_id);
 }

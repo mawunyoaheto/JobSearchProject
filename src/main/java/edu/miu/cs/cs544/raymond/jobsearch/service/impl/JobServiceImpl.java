@@ -36,8 +36,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void updateJob(long job_id, Job jobDetails) {
-        Job job = jobRepository.getById(job_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        Job job = jobRepository.save(jobDetails);
     }
 
     @Override

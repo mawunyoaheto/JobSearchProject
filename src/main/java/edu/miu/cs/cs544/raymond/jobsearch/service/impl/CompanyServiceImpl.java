@@ -34,8 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void updateCompany(long company_id, Company companyDetails) {
-        Company company = companyRepository.getById(company_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+       companyRepository.save(companyDetails);
     }
 
     @Override

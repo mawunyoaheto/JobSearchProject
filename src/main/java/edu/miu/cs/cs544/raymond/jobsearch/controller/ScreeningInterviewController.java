@@ -12,31 +12,30 @@ public class ScreeningInterviewController {
     @Autowired
     ScreeningInterviewService screeningInterviewService;
 
-    @GetMapping("/screeninginterviews/{interview_id}")
-    public ScreeningInterview getScreeningInterviewById(@PathVariable long interview_id){
-        return  screeningInterviewService.getScreeningInterviewById(interview_id);
+    @GetMapping(path = "/screeninginterviews/{interview_id}")
+    public ScreeningInterview getScreeningInterviewById(@PathVariable long interview_id) {
+        return screeningInterviewService.getScreeningInterviewById(interview_id);
     }
 
-    @GetMapping("/screeninginterviews")
-    public List<ScreeningInterview> getAllScreeningInterviews(){
+    @GetMapping(path = "/screeninginterviews")
+    public List<ScreeningInterview> getAllScreeningInterviews() {
         return screeningInterviewService.getAllScreeningInterviews();
     }
 
-    @PostMapping("/screeninginterviews")
-    public ScreeningInterview addScreeningInterview(@RequestBody ScreeningInterview screeningInterview){
+    @PostMapping(path = "/screeninginterviews")
+    public ScreeningInterview addScreeningInterview(@RequestBody ScreeningInterview screeningInterview) {
         screeningInterviewService.addScreeningInterview(screeningInterview);
         long savedScreeningInterviewId = screeningInterview.getId();
         return screeningInterviewService.getScreeningInterviewById(savedScreeningInterviewId);
     }
 
-    @PutMapping("/screeninginterviews/{interview_id}")
-    public void updateScreeningInterview(@PathVariable long interview_id, @RequestBody ScreeningInterview screeningInterview){
-        ScreeningInterview interview = screeningInterviewService.getScreeningInterviewById(interview_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+    @PutMapping(path = "/screeninginterviews/{interview_id}")
+    public void updateScreeningInterview(@PathVariable long interview_id, @RequestBody ScreeningInterview screeningInterview) {
+        screeningInterviewService.updateScreeningInterview(interview_id, screeningInterview);
     }
 
-    @DeleteMapping("screeninginterviews/{interview_id}")
-    public void deleteScreeningInterview(@PathVariable long interview_id){
+    @DeleteMapping(path = "screeninginterviews/{interview_id}")
+    public void deleteScreeningInterview(@PathVariable long interview_id) {
         screeningInterviewService.deleteScreeningInterview(interview_id);
     }
 }

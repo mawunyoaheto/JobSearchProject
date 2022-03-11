@@ -1,7 +1,7 @@
 package edu.miu.cs.cs544.raymond.jobsearch.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import java.util.List;
         )
 })
 @NamedQuery(name="Job.findJobByState", query="SELECT j FROM Job j WHERE j.company.address.state = 'IA'")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Job {
     @Id
     @GeneratedValue
@@ -65,7 +66,7 @@ public class Job {
     public void setApplication(Application application) {
             this.application = application;
     }
-    @JsonManagedReference
+//    @JsonManagedReference
     public List<Skill> getSkills() {
         return skills;
     }
@@ -75,7 +76,7 @@ public class Job {
         skill.setJob(this);
     }
 
-    @JsonBackReference
+//    @JsonBackReference
     public Company getCompany() {
         return company;
     }

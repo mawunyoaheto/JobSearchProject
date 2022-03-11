@@ -6,9 +6,11 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class SkillsServiceImpl implements SkillService {
     @Autowired
     SkillRepository skillRepository;
@@ -32,8 +34,7 @@ public class SkillsServiceImpl implements SkillService {
 
     @Override
     public void updateSkill(long skill_id, Skill skillDetails) {
-        Skill skill = skillRepository.getById(skill_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        skillRepository.save(skillDetails);
     }
 
     @Override

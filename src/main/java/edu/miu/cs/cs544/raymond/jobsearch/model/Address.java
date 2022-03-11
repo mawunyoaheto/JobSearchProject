@@ -1,13 +1,12 @@
 package edu.miu.cs.cs544.raymond.jobsearch.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Address {
     @Id@GeneratedValue
     private long id;
@@ -65,7 +64,7 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    @JsonBackReference
+//    @JsonBackReference
     public Company getCompany() {
         return company;
     }

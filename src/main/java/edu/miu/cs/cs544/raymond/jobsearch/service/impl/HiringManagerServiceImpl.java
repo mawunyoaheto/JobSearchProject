@@ -6,15 +6,18 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.HiringManagerInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class HiringManagerServiceImpl implements HiringManagerInterviewService {
     @Autowired
     HiringManagerInterviewRepository hiringManagerInterviewRepository;
+
     @Override
     public HiringManagerInterview getHiringManagerInterviewById(long interview_id) {
-        return  hiringManagerInterviewRepository.getById(interview_id);
+        return hiringManagerInterviewRepository.getById(interview_id);
     }
 
     @Override
@@ -31,8 +34,7 @@ public class HiringManagerServiceImpl implements HiringManagerInterviewService {
 
     @Override
     public void updateHiringManagerInterview(long interview_id, HiringManagerInterview hiringManagerInterview) {
-        HiringManagerInterview interview = hiringManagerInterviewRepository.getById(interview_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        hiringManagerInterviewRepository.save(hiringManagerInterview);
     }
 
     @Override

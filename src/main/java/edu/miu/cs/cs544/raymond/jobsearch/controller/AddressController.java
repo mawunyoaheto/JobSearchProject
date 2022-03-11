@@ -9,8 +9,6 @@ import java.util.List;
 
 @RestController
 public class AddressController {
-//    @Autowired
-//    AddressRepository addressRepository;
 
     @Autowired
     AddressService addressService;
@@ -28,8 +26,15 @@ public class AddressController {
     @PostMapping("/address")
     public void addAddress(@RequestBody Address address){
         addressService.addAddress(address);
-        long savedAddress = address.getId();
+    }
 
-        //return addressRepository.getById(savedAddress);
+    @PutMapping(path = "/address/{address_id}")
+    public void updateAddress(@PathVariable long address_id, @RequestBody Address address){
+        addressService.updateAddress(address_id,address);
+    }
+
+    @DeleteMapping(path = "/address/{address_id}")
+    public void deleteAddress(@PathVariable long address_id){
+        addressService.deleteAddress(address_id);
     }
 }

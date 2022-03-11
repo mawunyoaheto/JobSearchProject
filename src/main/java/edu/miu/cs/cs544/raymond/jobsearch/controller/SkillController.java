@@ -12,31 +12,30 @@ public class SkillController {
     @Autowired
     SkillService skillService;
 
-    @GetMapping("/skills/{skill_id}")
+    @GetMapping(path = "/skills/{skill_id}")
     public Skill getSkillById(@PathVariable long skill_id) {
         return skillService.getSkillById(skill_id);
     }
 
-    @GetMapping("/skills")
+    @GetMapping(path = "/skills")
     public List<Skill> getAllSkills() {
 
         return skillService.getAllSkills();
     }
 
-    @PostMapping("/skills")
+    @PostMapping(path = "/skills")
     public Skill addSkill(@RequestBody Skill skill) {
         skillService.addSkill(skill);
         long savedKills = skill.getId();
         return skillService.getSkillById(savedKills);
     }
 
-    @PutMapping("/skills/{skill_id}")
+    @PutMapping(path = "/skills/{skill_id}")
     public void updateSkill(@PathVariable long skill_id, @RequestBody Skill skillDetails) {
-        Skill skill = skillService.getSkillById(skill_id);
-//                .orElseThrow(()->new ResourceNotFoundEception("Skill not found for this id :: "+skill_id));
+        skillService.updateSkill(skill_id, skillDetails);
     }
 
-    @DeleteMapping("skills/{skill_id}")
+    @DeleteMapping(path = "skills/{skill_id}")
     public void deleteSkill(@PathVariable long skill_id) {
         skillService.getSkillById(skill_id);
     }

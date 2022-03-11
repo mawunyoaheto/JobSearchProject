@@ -29,13 +29,11 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void addAddress(Address address) {
         addressRepository.save(address);
-        long savedAddress = address.getId();
-        //return addressRepository.getById(savedAddress);
     }
 
     @Override
     public void updateAddress(long address_id, Address addressDetails) {
-        Address address = addressRepository.getById(address_id);
+        addressRepository.save(addressDetails);
     }
 
     @Override
