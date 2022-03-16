@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Application;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Application;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ApplicationRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;

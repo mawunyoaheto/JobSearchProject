@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Interview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Interview;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.InterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,14 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
-    public void updateInterview(long interview_id, Interview interviewDetails) {
-        interviewRepository.save(interviewDetails);
+    public Interview updateInterview(long interview_id, Interview interviewDetails) {
+        return interviewRepository.save(interviewDetails);
+
     }
 
     @Override
     public Interview addInterview(Interview interview) {
-        interviewRepository.save(interview);
-        long savedInterviewId = interview.getId();
-        return interviewRepository.getById(savedInterviewId);
+       return interviewRepository.save(interview);
     }
 
     @Override

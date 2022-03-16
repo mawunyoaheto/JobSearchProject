@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.HiringManagerInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.HiringManagerInterview;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.HiringManagerInterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.HiringManagerInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,9 @@ public class HiringManagerServiceImpl implements HiringManagerInterviewService {
     }
 
     @Override
-    public void updateHiringManagerInterview(long interview_id, HiringManagerInterview hiringManagerInterview) {
+    public HiringManagerInterview updateHiringManagerInterview(long interview_id, HiringManagerInterview hiringManagerInterview) {
         hiringManagerInterviewRepository.save(hiringManagerInterview);
+        return hiringManagerInterview;
     }
 
     @Override

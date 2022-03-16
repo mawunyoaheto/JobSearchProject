@@ -1,27 +1,22 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "job")
-@NamedNativeQueries({
-        @NamedNativeQuery(
-                name = "getAllJobsWithApplication",
-                query = "select * from job j inner join application a  ON j.APPLICATION_ID=a.ID",
-                resultClass=Job.class
-        )
-})
-@NamedQuery(name="Job.findJobByState", query="SELECT j FROM Job j WHERE j.company.address.state = 'IA'")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Job {
+public class Job implements Serializable {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
+    @Version
+    private int version;
     private String title;
     private Double salary;
     @OneToOne(cascade=CascadeType.PERSIST)
@@ -42,7 +37,7 @@ public class Job {
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -61,6 +56,10 @@ public class Job {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Application getApplication() {
+        return application;
     }
 
     public void setApplication(Application application) {

@@ -1,16 +1,19 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Skill {
+public class Skill implements Serializable {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
+    @Version
+    private int version;
     private String name;
     private int experience;
     private String description;
@@ -29,7 +32,7 @@ public class Skill {
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,7 +68,6 @@ public class Skill {
         this.language = language;
     }
 
-//    @JsonBackReference
     public Job getJob() {
         return job;
     }

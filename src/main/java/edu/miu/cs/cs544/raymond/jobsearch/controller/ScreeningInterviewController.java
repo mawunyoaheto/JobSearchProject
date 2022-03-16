@@ -1,8 +1,9 @@
 package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.ScreeningInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.ScreeningInterview;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ScreeningInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,32 +11,35 @@ import java.util.List;
 @RestController
 public class ScreeningInterviewController {
     @Autowired
-    ScreeningInterviewService screeningInterviewService;
+    private ScreeningInterviewService screeningInterviewService;
 
     @GetMapping(path = "/screeninginterviews/{interview_id}")
-    public ScreeningInterview getScreeningInterviewById(@PathVariable long interview_id) {
-        return screeningInterviewService.getScreeningInterviewById(interview_id);
+    public ResponseEntity<ScreeningInterview> getScreeningInterviewById(@PathVariable long interview_id) {
+        ScreeningInterview foundScreeningInterview = screeningInterviewService.getScreeningInterviewById(interview_id);
+        return ResponseEntity.ok(foundScreeningInterview);
     }
 
     @GetMapping(path = "/screeninginterviews")
-    public List<ScreeningInterview> getAllScreeningInterviews() {
-        return screeningInterviewService.getAllScreeningInterviews();
+    public ResponseEntity<List<ScreeningInterview>> getAllScreeningInterviews() {
+        List<ScreeningInterview> foundScreeningInterviews = screeningInterviewService.getAllScreeningInterviews();
+        return ResponseEntity.ok(foundScreeningInterviews);
     }
 
     @PostMapping(path = "/screeninginterviews")
-    public ScreeningInterview addScreeningInterview(@RequestBody ScreeningInterview screeningInterview) {
-        screeningInterviewService.addScreeningInterview(screeningInterview);
-        long savedScreeningInterviewId = screeningInterview.getId();
-        return screeningInterviewService.getScreeningInterviewById(savedScreeningInterviewId);
+    public ResponseEntity<ScreeningInterview> addScreeningInterview(@RequestBody ScreeningInterview screeningInterview) {
+        ScreeningInterview foundScreeningInterviews =  screeningInterviewService.addScreeningInterview(screeningInterview);
+        return ResponseEntity.ok(foundScreeningInterviews);
     }
 
     @PutMapping(path = "/screeninginterviews/{interview_id}")
-    public void updateScreeningInterview(@PathVariable long interview_id, @RequestBody ScreeningInterview screeningInterview) {
-        screeningInterviewService.updateScreeningInterview(interview_id, screeningInterview);
+    public ResponseEntity<ScreeningInterview> updateScreeningInterview(@PathVariable long interview_id, @RequestBody ScreeningInterview screeningInterview) {
+        ScreeningInterview updatedScreeningInterview =screeningInterviewService.updateScreeningInterview(interview_id, screeningInterview);
+        return ResponseEntity.ok(screeningInterview);
     }
 
     @DeleteMapping(path = "screeninginterviews/{interview_id}")
-    public void deleteScreeningInterview(@PathVariable long interview_id) {
+    public ResponseEntity<Void> deleteScreeningInterview(@PathVariable long interview_id) {
         screeningInterviewService.deleteScreeningInterview(interview_id);
+        return ResponseEntity.noContent().build();
     }
 }

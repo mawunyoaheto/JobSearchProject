@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Skill;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Skill;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.SkillRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +33,18 @@ public class SkillsServiceImpl implements SkillService {
     }
 
     @Override
-    public void updateSkill(long skill_id, Skill skillDetails) {
+    public Skill updateSkill(long skill_id, Skill skillDetails) {
         skillRepository.save(skillDetails);
+        return skillDetails;
     }
 
     @Override
     public void deleteSkill(long skill_id) {
         skillRepository.deleteById(skill_id);
+    }
+
+    @Override
+    public List<Skill> skillsWithJobSalaryGreaterThan(double amount) {
+        return skillRepository.findByJob_SalaryGreaterThan(amount);
     }
 }

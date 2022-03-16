@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,5 +19,29 @@ public class ScreeningInterview extends Interview{
        super.setDate(date);
         this.name = name;
         this.result = result;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "ScreeningInterview{" +
+                "name='" + name + '\'' +
+                ", result='" + result + '\'' +
+                '}';
     }
 }

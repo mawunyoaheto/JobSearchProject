@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.TechnicalInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.TechnicalInterview;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.TechnicalInterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.TechnicalInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,9 @@ public class TechnicalInterviewImpl implements TechnicalInterviewService {
     }
 
     @Override
-    public void updateTechnicalInterview(long interview_id, TechnicalInterview technicalInterview) {
+    public TechnicalInterview updateTechnicalInterview(long interview_id, TechnicalInterview technicalInterview) {
         technicalInterviewRepository.save(technicalInterview);
+        return technicalInterview;
     }
 
     @Override

@@ -1,42 +1,68 @@
 package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Skill;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Skill;
+import edu.miu.cs.cs544.raymond.jobsearch.service.JobService;
 import edu.miu.cs.cs544.raymond.jobsearch.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
 public class SkillController {
     @Autowired
-    SkillService skillService;
+    private SkillService skillService;
+
+    @Autowired
+    JobService jobService;
 
     @GetMapping(path = "/skills/{skill_id}")
-    public Skill getSkillById(@PathVariable long skill_id) {
-        return skillService.getSkillById(skill_id);
+    public ResponseEntity<Skill> getSkillById(@PathVariable long skill_id) {
+        Skill foundSkill = skillService.getSkillById(skill_id);
+        return ResponseEntity.ok(foundSkill);
     }
 
     @GetMapping(path = "/skills")
-    public List<Skill> getAllSkills() {
-
-        return skillService.getAllSkills();
+    public ResponseEntity<List<Skill>> getAllSkills() {
+        List<Skill> listOfFoundSkills = skillService.getAllSkills();
+        return ResponseEntity.ok(listOfFoundSkills);
     }
 
     @PostMapping(path = "/skills")
-    public Skill addSkill(@RequestBody Skill skill) {
-        skillService.addSkill(skill);
-        long savedKills = skill.getId();
-        return skillService.getSkillById(savedKills);
+    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill) {
+        Skill createdSkill = skillService.addSkill(skill);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdSkill.getId())
+                .toUri();
+        return ResponseEntity.created(uri)
+                .body(createdSkill);
     }
 
     @PutMapping(path = "/skills/{skill_id}")
-    public void updateSkill(@PathVariable long skill_id, @RequestBody Skill skillDetails) {
-        skillService.updateSkill(skill_id, skillDetails);
+    public ResponseEntity<Skill> updateSkill(@PathVariable long skill_id, @RequestBody Skill skillDetails) {
+        Skill updatedSkill = skillService.updateSkill(skill_id, skillDetails);
+        return  ResponseEntity.ok(updatedSkill);
+    }
+
+    @GetMapping(path = "skills/with-salary-greater-than")
+    public ResponseEntity<List<Skill>> getSkillsWithSalaryGreaterThan(@RequestParam("amount") double amount) {
+        List<Skill> listOfSkillsWithSalaryGreaterThan = skillService.skillsWithJobSalaryGreaterThan(amount);
+        return ResponseEntity.ok(listOfSkillsWithSalaryGreaterThan);
     }
 
     @DeleteMapping(path = "skills/{skill_id}")
-    public void deleteSkill(@PathVariable long skill_id) {
+    public ResponseEntity<Void> deleteSkill(@PathVariable long skill_id) {
         skillService.getSkillById(skill_id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = "/jobs/{job_id}/skills")
+    public ResponseEntity<List<Skill>> getAllJobSkills(@PathVariable long job_id){
+        List<Skill> allJobSkills = jobService.getJob(job_id).getSkills();
+        return ResponseEntity.ok(allJobSkills);
     }
 }

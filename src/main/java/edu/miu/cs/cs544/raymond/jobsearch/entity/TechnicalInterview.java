@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -47,5 +47,14 @@ public class TechnicalInterview extends Interview{
 
     public void setQuestions(String questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public String toString() {
+        return "TechnicalInterview{" +
+                "duration=" + duration +
+                ", location=" + location +
+                ", questions='" + questions + '\'' +
+                '}';
     }
 }

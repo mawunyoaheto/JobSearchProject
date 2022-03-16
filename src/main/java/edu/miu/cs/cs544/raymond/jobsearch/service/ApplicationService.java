@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Application;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Application;
 
 import java.util.List;
 

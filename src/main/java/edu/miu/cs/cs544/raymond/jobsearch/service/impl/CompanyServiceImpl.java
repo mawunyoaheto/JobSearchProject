@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Company;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Company;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.CompanyRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +27,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company addCompany(Company company) {
-        companyRepository.save(company);
-        long savedCompany = company.getId();
-        return companyRepository.getById(savedCompany);
+        return companyRepository.save(company);
     }
 
     @Override
-    public void updateCompany(long company_id, Company companyDetails) {
-       companyRepository.save(companyDetails);
+    public Company updateCompany(long company_id, Company companyDetails) {
+      return companyRepository.save(companyDetails);
     }
 
     @Override

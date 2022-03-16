@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,5 +35,13 @@ public class HiringManagerInterview extends Interview{
 
     public void setStart_date(LocalDate start_date) {
         this.start_date = start_date;
+    }
+
+    @Override
+    public String toString() {
+        return "HiringManagerInterview{" +
+                "team_size=" + team_size +
+                ", start_date=" + start_date +
+                '}';
     }
 }

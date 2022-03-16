@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -7,7 +7,9 @@ import java.time.LocalDate;
 public class Application {
     @Id
     @GeneratedValue
-    private  long id;
+    private  Long id;
+    @Version
+    private int version;
     private LocalDate date;
     private int resume_version;
     @OneToOne(mappedBy = "application",cascade = CascadeType.PERSIST)

@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,5 +24,22 @@ public class Recruiter extends Company{
 
     public void setClients(List<Client> clients) {
         this.clients = clients;
+    }
+
+    public String getName(){
+        return super.getName();
+    }
+
+    public Address getAddress(){
+        return super.getAddress();
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Recruiter{" +
+                "clients=" + clients +
+                '}';
     }
 }

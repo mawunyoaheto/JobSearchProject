@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Address;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Address;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.AddressRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,14 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void addAddress(Address address) {
-        addressRepository.save(address);
+    public Address addAddress(Address address) {
+       return addressRepository.save(address);
     }
 
     @Override
-    public void updateAddress(long address_id, Address addressDetails) {
+    public Address updateAddress(long address_id, Address addressDetails) {
         addressRepository.save(addressDetails);
+        return addressDetails;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.ScreeningInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.ScreeningInterview;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ScreeningInterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ScreeningInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +28,13 @@ public class ScreeningInterviewImpl implements ScreeningInterviewService {
 
     @Override
     public ScreeningInterview addScreeningInterview(ScreeningInterview screeningInterview) {
-        screeningInterviewRepository.save(screeningInterview);
-        long savedScreeningInterviewId = screeningInterview.getId();
-        return screeningInterviewRepository.getById(savedScreeningInterviewId);
+       return screeningInterviewRepository.save(screeningInterview);
     }
 
     @Override
-    public void updateScreeningInterview(long interview_id, ScreeningInterview screeningInterview) {
+    public ScreeningInterview updateScreeningInterview(long interview_id, ScreeningInterview screeningInterview) {
         ScreeningInterview interview = screeningInterviewRepository.getById(interview_id);
+        return interview;
     }
 
     @Override

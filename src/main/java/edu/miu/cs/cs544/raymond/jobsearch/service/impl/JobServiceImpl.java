@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Job;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +35,26 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public void updateJob(long job_id, Job jobDetails) {
+    public Job updateJob(long job_id, Job jobDetails) {
         Job job = jobRepository.save(jobDetails);
+        return job;
     }
 
     @Override
     public void deleteJob(long job_id) {
         jobRepository.deleteById(job_id);
     }
+
+    @Override
+    public List<Job> findJobBySate(String state) {
+       return jobRepository.findJobBySate(state);
+//        return jobRepository.findByCompany_Address_State(state);
+    }
+
+    @Override
+    public List<Job> getAllJobsWithApplication() {
+        return jobRepository.getAllJobsWithApplication();
+    }
+
+
 }

@@ -1,15 +1,15 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
-public class Address {
-    @Id@GeneratedValue
-    private long id;
+public class Address implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Version
+    private int version;
     private String Street;
     private String city;
     private String state;
@@ -28,7 +28,7 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

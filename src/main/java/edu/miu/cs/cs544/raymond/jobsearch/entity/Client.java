@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -45,5 +45,22 @@ public class Client extends Company {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getName(){
+        return super.getName();
+    }
+
+    public Address getAddress(){
+        return super.getAddress();
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "mission='" + mission + '\'' +
+                ", reason='" + reason + '\'' +
+                ", website='" + website + '\'' +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.model;
+package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,12 +9,14 @@ import java.time.LocalDate;
 public abstract class Interview {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
+    @Version
+    private int version;
     private LocalDate date;
     private String phone_number;
     private String email;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

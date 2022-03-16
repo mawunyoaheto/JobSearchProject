@@ -1,7 +1,8 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Recruiter;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Recruiter;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.RecruiterRepository;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.RecruiterSpecification;
 import edu.miu.cs.cs544.raymond.jobsearch.service.RecruiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,12 +34,17 @@ public class RecruiterServiceImpl implements RecruiterService {
     }
 
     @Override
-    public void updateRecruiter(long recruiter_id, Recruiter recruiterDetails) {
-       recruiterRepository.save(recruiterDetails);
+    public Recruiter updateRecruiter(long recruiter_id, Recruiter recruiterDetails) {
+       return recruiterRepository.save(recruiterDetails);
     }
 
     @Override
     public void deleteRecruiter(long recruiter_id) {
         recruiterRepository.deleteById(recruiter_id);
+    }
+
+    @Override
+    public List<Recruiter> getRecruitersWithJobPayGreaterThan(double amount) {
+        return recruiterRepository.findAll(RecruiterSpecification.hasSalaryGreaterThan(amount));
     }
 }

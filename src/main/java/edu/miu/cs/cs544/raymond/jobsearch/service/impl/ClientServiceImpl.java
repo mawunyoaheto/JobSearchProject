@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.model.Company;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Company;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ClientRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +24,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void updateClient(long client_id, Company clientDetails) {
+    public Company updateClient(long client_id, Company clientDetails) {
         clientRepository.save(clientDetails);
+        return clientDetails;
     }
 
     @Override

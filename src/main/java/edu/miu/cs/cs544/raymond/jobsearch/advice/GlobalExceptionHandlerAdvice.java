@@ -16,22 +16,24 @@ import java.util.NoSuchElementException;
 public class GlobalExceptionHandlerAdvice {
 
 @ExceptionHandler(EmptyInputException.class)
-    public ResponseEntity<String> handleEmptyInput(EmptyInputException emptyInputException){
-    return new ResponseEntity<String>("Empty input field",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> handleEmptyInput(EmptyInputException emptyInputException){
+    //return new ResponseEntity<String>("Empty input field",HttpStatus.BAD_REQUEST);
+    return ResponseEntity.badRequest().build();
 }
 
 @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException resourceNotFoundException){
-    return new ResponseEntity<String>("Element with the given Id not found",HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException resourceNotFoundException){
+//    return new ResponseEntity<String>(resourceNotFoundException.getMessage()+ " NOT FOUND",HttpStatus.NOT_FOUND);
+    return ResponseEntity.notFound().build();
 }
 
 @ExceptionHandler(NoSuchElementException.class)
 public ResponseEntity<String> handleNoSuchElement(NoSuchElementException noSuchElementException){
-    return new ResponseEntity<String>(noSuchElementException.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+    return new ResponseEntity<String>(noSuchElementException.getMessage(),HttpStatus.NOT_FOUND);
 }
 @ExceptionHandler(EmptyResultDataAccessException.class)
 public ResponseEntity<String> handleEmptyResultDataAccess(EmptyResultDataAccessException emptyResultDataAccessException){
-    return new ResponseEntity<String>(emptyResultDataAccessException.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+    return new ResponseEntity<String>(emptyResultDataAccessException.getMessage(),HttpStatus.NOT_FOUND);
 }
 
 @ExceptionHandler(HttpMessageNotWritableException.class)
