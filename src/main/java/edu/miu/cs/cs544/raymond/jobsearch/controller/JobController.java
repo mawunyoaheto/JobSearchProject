@@ -49,7 +49,7 @@ public class JobController {
 //        }
     }
 
-    @GetMapping(path = "/jobs/job-by-state")
+    @GetMapping(path = "/jobs/state")
     public ResponseEntity<List<Job>> getJobsByState(@RequestParam("state") String state) {
         List<Job> listOfSateJobs = jobService.findJobBySate(state);
         return ResponseEntity.ok(listOfSateJobs);

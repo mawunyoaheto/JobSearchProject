@@ -23,7 +23,7 @@ public class Job implements Serializable {
     private Application application;
     @ManyToOne (cascade = CascadeType.PERSIST)
     private Company company;
-    @OneToMany(mappedBy = "job", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
     private List<Skill> skills = new ArrayList<>();
 
     public Job() {

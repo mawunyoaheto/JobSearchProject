@@ -40,7 +40,7 @@ public class RecruiterController {
        return ResponseEntity.ok(updatedRecruiter);
     }
 
-    @GetMapping(path = "/recruiters/with-salary-greater-than")
+    @GetMapping(path = "/recruiters/job/")
     public ResponseEntity<List<Recruiter>> getRecruitersWithJobSalaryGreaterThan(@RequestParam("salary") double salary) {
         List<Recruiter> listOfRecruitersWithJobSalary = recruiterService.getRecruitersWithJobPayGreaterThan(salary);
         return ResponseEntity.ok(listOfRecruitersWithJobSalary);
