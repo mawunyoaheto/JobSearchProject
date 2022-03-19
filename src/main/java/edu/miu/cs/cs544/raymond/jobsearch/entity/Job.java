@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,27 +12,27 @@ import java.util.List;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Job implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
     private int version;
     private String title;
-    private Double salary;
-    @OneToOne(cascade=CascadeType.PERSIST)
+    private float salary;
+    @OneToOne(cascade=CascadeType.ALL)
     private Application application;
-    @ManyToOne (cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Company company;
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
-    private List<Skill> skills = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Skill> skills;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Interview> interviews;
 
     public Job() {
     }
 
-    public Job(String title, Double salary, Company company) {
+    public Job(String title, float salary) {
         this.title = title;
         this.salary = salary;
-        this.company = company;
-        this.skills = skills;
     }
 
 
@@ -50,11 +49,11 @@ public class Job implements Serializable {
         this.title = title;
     }
 
-    public Double getSalary() {
+    public float getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(float salary) {
         this.salary = salary;
     }
 
@@ -65,19 +64,34 @@ public class Job implements Serializable {
     public void setApplication(Application application) {
             this.application = application;
     }
-//    @JsonManagedReference
+
     public List<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Skill skill) {
-        this.skills.add(skill);
-        skill.setJob(this);
+    public void setSkills(List<Skill> skills) {
+        this.skills=skills;
     }
 
-//    @JsonBackReference
-    public Company getCompany() {
-        return company;
+    public void  addSkill(Skill skill){
+        this.skills.add(skill);
+    }
+
+//    public Company getCompany() {
+//        return company;
+//    }
+
+
+    public List<Interview> getInterviews() {
+        return interviews;
+    }
+
+    public void setInterviews(List<Interview> interviews) {
+        this.interviews = interviews;
+    }
+
+    public void addInterview(Interview interview){
+        this.interviews.add(interview);
     }
 
     public void setCompany(Company company) {

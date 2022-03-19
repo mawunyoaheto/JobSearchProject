@@ -13,10 +13,8 @@ public class ScreeningInterview extends Interview{
     public ScreeningInterview() {
     }
 
-    public ScreeningInterview(String name, String result, LocalDate date, String phone, String email) {
-       super.setEmail(email);
-       super.setPhone_number(phone);
-       super.setDate(date);
+    public ScreeningInterview(LocalDate date, String phone_number, String email, String name, String result) {
+        super(date, phone_number, email);
         this.name = name;
         this.result = result;
     }

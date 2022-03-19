@@ -1,47 +1,37 @@
 package edu.miu.cs.cs544.raymond.jobsearch.advice;
 
 import edu.miu.cs.cs544.raymond.jobsearch.exception.EmptyInputException;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ErrorDetails;
 import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.NoSuchElementException;
+import java.util.Date;
 
 @ControllerAdvice
-public class GlobalExceptionHandlerAdvice {
+public class GlobalExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
 
 @ExceptionHandler(EmptyInputException.class)
-    public ResponseEntity<Object> handleEmptyInput(EmptyInputException emptyInputException){
-    //return new ResponseEntity<String>("Empty input field",HttpStatus.BAD_REQUEST);
-    return ResponseEntity.badRequest().build();
+    public ResponseEntity<Object> handleEmptyInput(EmptyInputException ex, WebRequest request){
+    ErrorDetails errorResponse = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 }
 
 @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> handleResourceNotFound(ResourceNotFoundException resourceNotFoundException){
-//    return new ResponseEntity<String>(resourceNotFoundException.getMessage()+ " NOT FOUND",HttpStatus.NOT_FOUND);
-    return ResponseEntity.notFound().build();
+    public ResponseEntity<ErrorDetails> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request){
+    ErrorDetails errorResponse = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+    return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 }
 
-@ExceptionHandler(NoSuchElementException.class)
-public ResponseEntity<String> handleNoSuchElement(NoSuchElementException noSuchElementException){
-    return new ResponseEntity<String>(noSuchElementException.getMessage(),HttpStatus.NOT_FOUND);
-}
-@ExceptionHandler(EmptyResultDataAccessException.class)
-public ResponseEntity<String> handleEmptyResultDataAccess(EmptyResultDataAccessException emptyResultDataAccessException){
-    return new ResponseEntity<String>(emptyResultDataAccessException.getMessage(),HttpStatus.NOT_FOUND);
-}
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ErrorDetails> handleAllExceptions(Exception ex, WebRequest request) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-@ExceptionHandler(HttpMessageNotWritableException.class)
-public ResponseEntity<String> handleHttpMessageNotWritable(HttpMessageNotWritableException httpMessageNotWritableException){
-    return new ResponseEntity<String>("Element with the given Id not found",HttpStatus.NOT_FOUND);
-}
-@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-public ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException httpRequestMethodNotSupportedException){
-    return new ResponseEntity<Object>("Please change your http method type",HttpStatus.NOT_FOUND);
-}
 }

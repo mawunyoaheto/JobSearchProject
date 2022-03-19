@@ -1,6 +1,9 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
 import edu.miu.cs.cs544.raymond.jobsearch.entity.ScreeningInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ScreeningInterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ScreeningInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,9 @@ public class ScreeningInterviewImpl implements ScreeningInterviewService {
     @Autowired
     ScreeningInterviewRepository screeningInterviewRepository;
 
+    @Autowired
+    JobRepository jobRepository;
+
     @Override
     public ScreeningInterview getScreeningInterviewById(long interview_id) {
         return  screeningInterviewRepository.getById(interview_id);
@@ -27,8 +33,11 @@ public class ScreeningInterviewImpl implements ScreeningInterviewService {
     }
 
     @Override
-    public ScreeningInterview addScreeningInterview(ScreeningInterview screeningInterview) {
-       return screeningInterviewRepository.save(screeningInterview);
+    public ScreeningInterview addScreeningInterview(long job_id, ScreeningInterview screeningInterview) {
+        Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("Job with given id not found"));
+        foundJob.addInterview(screeningInterview);
+        screeningInterview.setJob(foundJob);
+        return screeningInterviewRepository.save(screeningInterview);
     }
 
     @Override

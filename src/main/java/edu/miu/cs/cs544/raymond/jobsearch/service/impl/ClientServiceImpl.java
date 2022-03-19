@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
-import edu.miu.cs.cs544.raymond.jobsearch.entity.Company;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Client;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ClientRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,26 +15,27 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     ClientRepository clientRepository;
     @Override
-    public Company getClientById(long client_id) {
-        return clientRepository.getById(client_id);
+    public Client getClientById(long client_id) {
+      return clientRepository.findById(client_id).orElseThrow(()-> new ResourceNotFoundException("client with given id not found"));
     }
 
     @Override
-    public List<Company> getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
     @Override
-    public Company updateClient(long client_id, Company clientDetails) {
-        clientRepository.save(clientDetails);
-        return clientDetails;
+    public Client updateClient(long client_id, Client clientDetails) {
+       Client foundClient =  clientRepository.findById(client_id).orElseThrow(()-> new ResourceNotFoundException("client with given id not found"));
+       foundClient.setName(clientDetails.getName());
+       foundClient.setAddress(clientDetails.getAddress());
+       foundClient.setJobs(clientDetails.getJobs());
+        return clientRepository.save(foundClient);
     }
 
     @Override
-    public Company addClient(Company client) {
-        clientRepository.save(client);
-        long savedClientId = client.getId();
-        return clientRepository.getById(savedClientId);
+    public Client addClient(Client client) {
+        return clientRepository.save(client);
     }
 
     @Override

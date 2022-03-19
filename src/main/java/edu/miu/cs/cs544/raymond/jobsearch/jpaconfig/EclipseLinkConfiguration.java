@@ -1,4 +1,4 @@
-package edu.miu.cs.cs544.raymond.jobsearch.config;
+package edu.miu.cs.cs544.raymond.jobsearch.jpaconfig;
 
 
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -33,6 +33,7 @@ public class EclipseLinkConfiguration extends JpaBaseConfiguration {
         Map<String, Object> map = new HashMap<>();
         map.put(PersistenceUnitProperties.WEAVING, "false");
         map.put(PersistenceUnitProperties.DDL_GENERATION, PersistenceUnitProperties.DROP_AND_CREATE);
+        map.put(PersistenceUnitProperties.DDL_GENERATION_MODE, PersistenceUnitProperties.DDL_DATABASE_GENERATION);
         map.put(PersistenceUnitProperties.LOGGING_LEVEL, SessionLog.FINE_LABEL);
         return map;
     }

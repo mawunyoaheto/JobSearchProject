@@ -8,7 +8,7 @@ public interface HiringManagerInterviewService {
 
     public HiringManagerInterview getHiringManagerInterviewById(long interview_id);
     public List<HiringManagerInterview> getAllHiringManagerInterviews();
-    public HiringManagerInterview addHiringManagerInterview(HiringManagerInterview hiringManagerInterview);
+    public HiringManagerInterview addHiringManagerInterview(long job_id,HiringManagerInterview hiringManagerInterview);
     public HiringManagerInterview updateHiringManagerInterview(long interview_id, HiringManagerInterview hiringManagerInterview);
     public void deleteHiringManagerInterview(long interview_id);
 }

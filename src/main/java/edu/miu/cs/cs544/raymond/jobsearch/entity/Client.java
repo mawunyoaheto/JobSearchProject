@@ -1,7 +1,10 @@
 package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("CLIENT")
@@ -9,15 +12,15 @@ public class Client extends Company {
     private  String mission;
     private String reason;
     private String website;
-//    @ManyToOne(cascade = CascadeType.PERSIST)
-//    private Recruiter recruiter;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Recruiter recruiter;
 
     public  Client(){
         super();
     }
 
-    public Client(String name, Address address, String mission, String reason, String website) {
-        super(name, address);
+    public Client(String name, Address address, List<Job> jobs,String mission, String reason, String website) {
+        super(name, address,jobs);
         this.mission = mission;
         this.reason = reason;
         this.website = website;

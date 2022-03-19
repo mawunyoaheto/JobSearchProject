@@ -1,6 +1,6 @@
 package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
-import edu.miu.cs.cs544.raymond.jobsearch.entity.Company;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Client;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +16,18 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping(path = "/clients/{client_id}")
-    public ResponseEntity<Company> getClientById(@PathVariable long client_id) {
-        Company foundClient = clientService.getClientById(client_id);
-        return ResponseEntity.ok(foundClient);
+    public ResponseEntity<Client> getClientById(@PathVariable long client_id) {
+        return ResponseEntity.ok(clientService.getClientById(client_id));
     }
 
     @GetMapping(path = "/clients")
-    public ResponseEntity<List<Company>> getAllClients() {
-        List<Company> listOfFoundClients = clientService.getAllClients();
-        return ResponseEntity.ok(listOfFoundClients);
+    public ResponseEntity<List<Client>> getAllClients() {
+            return ResponseEntity.ok(clientService.getAllClients());
     }
 
     @PostMapping(path = "/clients")
-    public ResponseEntity<Company> addClient(@RequestBody Company client) {
-        Company createdClient = clientService.addClient(client);
+    public ResponseEntity<Client> addClient(@RequestBody Client client) {
+        Client createdClient = clientService.addClient(client);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdClient.getId())
@@ -39,8 +37,8 @@ public class ClientController {
     }
 
     @PutMapping(path = "/clients/{client_id}")
-    public ResponseEntity<Company> updateClient(@PathVariable long client_id, @RequestBody Company clientDetails) {
-        Company updatedClient  = clientService.updateClient(client_id, clientDetails);
+    public ResponseEntity<Client> updateClient(@PathVariable long client_id, @RequestBody Client clientDetails) {
+        Client updatedClient  = clientService.updateClient(client_id, clientDetails);
         return ResponseEntity.ok(updatedClient);
     }
 

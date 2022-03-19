@@ -8,6 +8,6 @@ public interface ApplicationService {
     public Application getApplicationById(long application_id);
     public List<Application> getAllApplications();
     public void updateApplication(long application_id, Application applicationDetails);
-    public Application addApplication(Application application);
+    public Application addApplication(long job_id, Application application);
     public void deleteApplication(long application_id);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jms.JMSException;
 import java.util.List;
 
 @RestController
@@ -26,33 +27,23 @@ public class JobController {
 
     @GetMapping(path="/jobs/{job_id}")
     public ResponseEntity<Job> getJob(@PathVariable long job_id){
-
-        Job foundJob = jobService.getJob(job_id);
-
-       return ResponseEntity.ok(foundJob);
+       return ResponseEntity.ok(jobService.getJob(job_id));
 
     }
 
-    @PostMapping(path="/jobs")
-    public void addJob(@RequestBody Job job){
-        sender.send(job);
-
+    @PostMapping(path="/companies/{company_id}/jobs")
+    public Job addJob(@PathVariable long company_id, @RequestBody Job job) throws JMSException {
+        return jobService.addJob(company_id,job);
     }
 
-    @PutMapping(path = "/jobs/{job_id}")
-    public ResponseEntity<Job> updateJob(@PathVariable long job_id, Job job) {
-        Job updatedJob = jobService.updateJob(job_id, job);
-//        if (updatedJob == null) {
-//            return ResponseEntity.notFound().build();
-//        } else {
-            return ResponseEntity.ok(updatedJob);
-//        }
+    @PutMapping(path = "/companies/{company_id}/jobs/{job_id}")
+    public ResponseEntity<Job> updateJob(@PathVariable long company_id, @PathVariable long job_id, Job job) {
+            return ResponseEntity.ok(jobService.updateJob(company_id,job_id, job));
     }
 
     @GetMapping(path = "/jobs/state")
     public ResponseEntity<List<Job>> getJobsByState(@RequestParam("state") String state) {
-        List<Job> listOfSateJobs = jobService.findJobBySate(state);
-        return ResponseEntity.ok(listOfSateJobs);
+        return ResponseEntity.ok(jobService.findJobBySate(state));
     }
 
     @GetMapping(path = "/jobs/applications")

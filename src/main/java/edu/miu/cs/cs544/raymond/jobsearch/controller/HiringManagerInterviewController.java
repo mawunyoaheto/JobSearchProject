@@ -5,7 +5,9 @@ import edu.miu.cs.cs544.raymond.jobsearch.service.HiringManagerInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -26,10 +28,15 @@ public class HiringManagerInterviewController {
         return ResponseEntity.ok(foundHiringManagerInterviews);
     }
 
-    @PostMapping(path = "/hiringmanagerinterviews")
-    public ResponseEntity<HiringManagerInterview> addHiringManagerInterview(@RequestBody HiringManagerInterview hiringManagerInterview) {
-       HiringManagerInterview createdHiringManagerInterview= hiringManagerInterviewService.addHiringManagerInterview(hiringManagerInterview);
-        return ResponseEntity.ok(createdHiringManagerInterview);
+    @PostMapping(path = "/jobs/{job_id}/hiringmanagerinterviews")
+    public ResponseEntity<HiringManagerInterview> addHiringManagerInterview(@PathVariable long job_id, @RequestBody HiringManagerInterview hiringManagerInterview) {
+        HiringManagerInterview createdHiringInterview = hiringManagerInterviewService.addHiringManagerInterview(job_id,hiringManagerInterview);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdHiringInterview.getId())
+                .toUri();
+        return ResponseEntity.created(uri)
+                .body(createdHiringInterview);
     }
 
     @PutMapping(path = "/hiringmanagerinterviews/{interview_id}")

@@ -15,6 +15,18 @@ public abstract class Interview {
     private LocalDate date;
     private String phone_number;
     private String email;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Job job;
+
+
+    public Interview() {
+    }
+
+    public Interview(LocalDate date, String phone_number, String email) {
+        this.date = date;
+        this.phone_number = phone_number;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -42,6 +54,10 @@ public abstract class Interview {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
     }
 
     @Override

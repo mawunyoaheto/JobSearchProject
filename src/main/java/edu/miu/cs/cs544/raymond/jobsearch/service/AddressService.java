@@ -8,7 +8,7 @@ public interface AddressService {
 
     public Address getAddressById(long address_id);
     public List<Address> getAllAddress();
-    public Address addAddress(Address address);
-    public Address updateAddress(long address_id, Address addressDetails);
+    public Address addAddress(long company_id,Address address);
+    public Address updateAddress(long company_id, long address_id, Address addressDetails);
     public void deleteAddress(long address_id);
 }

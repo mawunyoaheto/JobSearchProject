@@ -1,6 +1,9 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
 import edu.miu.cs.cs544.raymond.jobsearch.entity.Skill;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.SkillRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ public class SkillsServiceImpl implements SkillService {
     @Autowired
     SkillRepository skillRepository;
 
+    @Autowired
+    JobRepository jobRepository;
+
     @Override
     public Skill getSkillById(long skill_id) {
         return skillRepository.getById(skill_id);
@@ -26,16 +32,20 @@ public class SkillsServiceImpl implements SkillService {
     }
 
     @Override
-    public Skill addSkill(Skill skill) {
-        skillRepository.save(skill);
-        long savedKills = skill.getId();
-        return skillRepository.getById(savedKills);
+    public Skill addSkill(long job_id, Skill skill) {
+        Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("job with given id not found"));
+        skill.setJob(foundJob);
+        foundJob.addSkill(skill);
+       return skillRepository.save(skill);
     }
 
     @Override
-    public Skill updateSkill(long skill_id, Skill skillDetails) {
-        skillRepository.save(skillDetails);
-        return skillDetails;
+    public Skill updateSkill(long job_id, long skill_id, Skill skillDetails) {
+        Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("job with given id not found"));
+        Skill foundSkill = skillRepository.findById(skill_id).orElseThrow();
+        foundSkill=skillDetails;
+        foundSkill.setJob(foundJob);
+        return  skillRepository.save(skillDetails);
     }
 
     @Override
@@ -45,6 +55,9 @@ public class SkillsServiceImpl implements SkillService {
 
     @Override
     public List<Skill> skillsWithJobSalaryGreaterThan(double amount) {
-        return skillRepository.findByJob_SalaryGreaterThan(amount);
+        List<Skill> skillsWithJob= skillRepository.findByJob_SalaryGreaterThan(amount);
+        if(skillsWithJob!=null){
+            return skillsWithJob;
+        }else throw(new ResourceNotFoundException("job with given id not found"));
     }
 }

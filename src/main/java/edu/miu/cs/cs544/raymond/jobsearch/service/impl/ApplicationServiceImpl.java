@@ -1,7 +1,10 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
 import edu.miu.cs.cs544.raymond.jobsearch.entity.Application;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.ApplicationRepository;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +17,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     ApplicationRepository applicationRepository;
 
+    @Autowired
+    JobRepository jobRepository;
+
     @Override
     public Application getApplicationById(long application_id) {
-        return applicationRepository.getById(application_id);
+        return applicationRepository.findById(application_id).orElseThrow(
+                () ->new ResourceNotFoundException("application with given id not found"));
     }
 
     @Override
@@ -30,10 +37,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application addApplication(Application application) {
-        applicationRepository.save(application);
-        long savedApplicationId = application.getId();
-        return applicationRepository.getById(savedApplicationId);
+    public Application addApplication(long job_id, Application application) {
+        Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("job with given id not found"));
+        foundJob.setApplication(application);
+        application.setJob(foundJob);
+       return applicationRepository.save(application);
     }
 
     @Override

@@ -13,10 +13,8 @@ public class HiringManagerInterview extends Interview{
     public HiringManagerInterview() {
     }
 
-    public HiringManagerInterview(String phone_num, String email,int team_size, LocalDate start_date) {
-        super.setDate(start_date);
-        super.setPhone_number(phone_num);
-        super.setEmail(email);
+    public HiringManagerInterview(LocalDate date, String phone_number, String email, int team_size, LocalDate start_date) {
+        super(date, phone_number, email);
         this.team_size = team_size;
         this.start_date = start_date;
     }

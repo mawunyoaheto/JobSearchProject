@@ -5,7 +5,10 @@ import edu.miu.cs.cs544.raymond.jobsearch.entity.Interview;
 import edu.miu.cs.cs544.raymond.jobsearch.service.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,22 +25,14 @@ public class InterviewController {
 
     @GetMapping(path = "/interviews")
     public ResponseEntity<List<Interview>> getAllInterviews() {
-        List<Interview> foundInterviews = interviewService.getAllInterviews();
-        return ResponseEntity.ok(foundInterviews);
+        return ResponseEntity.ok(interviewService.getAllInterviews());
     }
 
-    @PostMapping(path = "/interviews")
-    public ResponseEntity<Interview> addInterview(@RequestBody Interview interview) {
-        Interview createdInterview = interviewService.addInterview(interview);
-        return ResponseEntity.ok(createdInterview);
+    @GetMapping(path = "/jobs/{job_id}/interviews")
+    public ResponseEntity<List<Interview>> getInterviewsByJobId(@PathVariable long job_id) {
+     return ResponseEntity.ok(interviewService.getAllInterviewsByJob(job_id));
     }
 
-
-    @PutMapping(path = "/interviews/{interview_id}")
-    public ResponseEntity<Interview> updateInterview(@PathVariable long interview_id, @RequestBody Interview interviewDetails) {
-        Interview updatedInterview = interviewService.updateInterview(interview_id, interviewDetails);
-        return ResponseEntity.ok(updatedInterview);
-    }
 
     @DeleteMapping(path = "interviews/{interview_id}")
     public ResponseEntity<Void> deleteInterview(@PathVariable long interview_id) {

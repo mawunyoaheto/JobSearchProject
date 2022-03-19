@@ -16,13 +16,11 @@ public class TechnicalInterview extends Interview{
     public TechnicalInterview() {
     }
 
-    public TechnicalInterview(double duration, Location location, String questions, LocalDate date,String phone, String email) {
+    public TechnicalInterview(LocalDate date, String phone_number, String email, double duration,  String questions,Location location) {
+        super(date, phone_number, email);
         this.duration = duration;
         this.location = location;
         this.questions = questions;
-        super.setDate(date);
-        super.setPhone_number(phone);
-        super.setEmail(email);
     }
 
     public double getDuration() {

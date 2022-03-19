@@ -1,6 +1,7 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
 import edu.miu.cs.cs544.raymond.jobsearch.entity.Recruiter;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.RecruiterRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.RecruiterSpecification;
 import edu.miu.cs.cs544.raymond.jobsearch.service.RecruiterService;
@@ -18,7 +19,7 @@ public class RecruiterServiceImpl implements RecruiterService {
 
     @Override
     public Recruiter getRecruiterById(long recruiter_id) {
-        return recruiterRepository.getById(recruiter_id);
+        return recruiterRepository.findById(recruiter_id).orElseThrow(() ->new ResourceNotFoundException("recruiter with given id not found"));
     }
 
     @Override

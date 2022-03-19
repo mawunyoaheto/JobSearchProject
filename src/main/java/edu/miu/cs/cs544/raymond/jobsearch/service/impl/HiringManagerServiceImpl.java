@@ -1,7 +1,10 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
 import edu.miu.cs.cs544.raymond.jobsearch.entity.HiringManagerInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.HiringManagerInterviewRepository;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.HiringManagerInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +18,12 @@ public class HiringManagerServiceImpl implements HiringManagerInterviewService {
     @Autowired
     HiringManagerInterviewRepository hiringManagerInterviewRepository;
 
+    @Autowired
+  JobRepository jobRepository;
+
     @Override
     public HiringManagerInterview getHiringManagerInterviewById(long interview_id) {
-        return hiringManagerInterviewRepository.getById(interview_id);
+        return hiringManagerInterviewRepository.findById(interview_id).orElseThrow(() ->new ResourceNotFoundException("interview with given id not found"));
     }
 
     @Override
@@ -26,10 +32,11 @@ public class HiringManagerServiceImpl implements HiringManagerInterviewService {
     }
 
     @Override
-    public HiringManagerInterview addHiringManagerInterview(HiringManagerInterview hiringManagerInterview) {
-        hiringManagerInterviewRepository.save(hiringManagerInterview);
-        long savedHiringManagerId = hiringManagerInterview.getId();
-        return hiringManagerInterviewRepository.getById(savedHiringManagerId);
+    public HiringManagerInterview addHiringManagerInterview(long job_id, HiringManagerInterview hiringManagerInterview) {
+        Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("job with given id not found"));
+        foundJob.addInterview(hiringManagerInterview);
+        hiringManagerInterview.setJob(foundJob);
+        return hiringManagerInterviewRepository.save(hiringManagerInterview);
     }
 
     @Override

@@ -1,16 +1,13 @@
 package edu.miu.cs.cs544.raymond.jobsearch.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Skill implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Version
     private int version;
@@ -18,17 +15,18 @@ public class Skill implements Serializable {
     private int experience;
     private String description;
     private String language;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Job job;
 
     public Skill() {
     }
 
-    public Skill(String name, int experience, String description, String language) {
+    public Skill(String name, int experience, String description, String language,Job job) {
         this.name = name;
         this.experience = experience;
         this.description = description;
         this.language = language;
+        this.job=job;
     }
 
 
@@ -68,9 +66,9 @@ public class Skill implements Serializable {
         this.language = language;
     }
 
-    public Job getJob() {
-        return job;
-    }
+//    public Job getJob() {
+//        return job;
+//    }
 
     public void setJob(Job job) {
         this.job = job;

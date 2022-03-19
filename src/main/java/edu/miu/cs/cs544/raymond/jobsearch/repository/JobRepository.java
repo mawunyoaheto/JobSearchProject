@@ -13,7 +13,7 @@ public interface JobRepository extends JpaRepository <Job, Long> {
     @Query("SELECT j FROM Job j WHERE j.company.address.state =:state")
     List<Job> findJobBySate(String state);
 
-    List<Job> findByCompany_Address_State(String state);
+//    List<Job> findByCompany_Address_State(String state);
 
     @Query(value = "select * from job j inner join application a  ON j.APPLICATION_ID=a.ID", nativeQuery = true)
     List<Job> getAllJobsWithApplication();

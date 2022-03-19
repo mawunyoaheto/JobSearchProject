@@ -2,6 +2,7 @@ package edu.miu.cs.cs544.raymond.jobsearch.controller;
 
 import edu.miu.cs.cs544.raymond.jobsearch.entity.Company;
 import edu.miu.cs.cs544.raymond.jobsearch.service.CompanyService;
+import edu.miu.cs.cs544.raymond.jobsearch.service.impl.CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private CompanyServiceImpl companyServiceImp ;
+
     @GetMapping(path="/companies")
     public ResponseEntity<List<Company>> getAllCompanies(){
         List<Company> foundCompanies = companyService.getAllCompanies();
@@ -22,9 +26,9 @@ public class CompanyController {
     }
 
     @GetMapping(path="/companies/{company_id}")
-    public ResponseEntity<Company> getCompany(@PathVariable long company_id){
-        Company foundCompany = companyService.getCompany(company_id);
-        return ResponseEntity.ok(foundCompany);
+    public Company getCompany(@PathVariable long company_id){
+//        return ResponseEntity.of(companyService.getCompany(company_id));
+        return companyServiceImp.getOneCompany(company_id);
     }
 
     @PostMapping(path="/companies")

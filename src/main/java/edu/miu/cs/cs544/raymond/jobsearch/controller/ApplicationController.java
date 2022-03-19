@@ -34,11 +34,9 @@ public class ApplicationController {
      applicationService.updateApplication(application_id,application);
     }
 
-    @PostMapping(path="/applications")
-    public Application addApplication(@RequestBody Application application){
-        applicationService.addApplication(application);
-        long savedApplicationId = application.getId();
-        return applicationService.getApplicationById(savedApplicationId);
+    @PostMapping(path="/jobs/{job_id}/applications")
+    public Application addApplication(@PathVariable long job_id, @RequestBody Application application){
+        return applicationService.addApplication(job_id,application);
     }
 
     @DeleteMapping(path="applications/{application_id}")

@@ -1,76 +1,95 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.commandlinerunner;
 
 import edu.miu.cs.cs544.raymond.jobsearch.entity.*;
-import edu.miu.cs.cs544.raymond.jobsearch.service.CompanyService;
-import edu.miu.cs.cs544.raymond.jobsearch.service.JobService;
-import edu.miu.cs.cs544.raymond.jobsearch.service.RecruiterService;
-import edu.miu.cs.cs544.raymond.jobsearch.service.SkillService;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JobSearchCommandLinerRunner implements CommandLineRunner {
     @Autowired
-    JobService jobService;
-
-    @Autowired
-    SkillService skillService;
-
-    @Autowired
-    RecruiterService recruiterService;
-
-    @Autowired
-    CompanyService companyService;
+    JobRepository jobRepository;
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
 
-        Company infotech = companyService.addCompany(new Company("Infotech Systems", new Address("1000N 4th St", "Fairfield", "IA", 52557)));
-        Company softribe = companyService.addCompany(new Company("Softribe", new Address("Trump dr", "Davenport", "TX", 46527)));
-        Company microsoft = companyService.addCompany(new Company("Microsoft", new Address("One Microsoft Way", "Redmond", "WA", 98052)));
-        Company amazon = companyService.addCompany(new Company("Amazon", new Address("54 State St., Suite 308", "Albany", "NY", 12207)));
-        Company acenture =companyService.addCompany(new Company("Acenture Systems", new Address("101 North 1st Avenue", "Phoenix", "AZ", 85003)));
-        Company utopia = companyService.addCompany(new Company("Utopia", new Address("3000S Marcus dr", "Mayfield", "CA", 34673)));
-        Recruiter kforce = recruiterService.addRecruiter(new Recruiter("K-Force", new Address("14542 Harley dr", "Desmoine", "IA", 23452)));
+        List<Job> infotech_jobs = new ArrayList<>();
+        List<Job> amazon_jobs = new ArrayList<>();
+        List<Job> jobs3 = new ArrayList<>();
+        List<Client> recruiterClients = new ArrayList<>();
+        Job javascript_developer = new Job("Full Stack Javascript Developer", 95000.00f);
+        Job front_end_dev = new Job("Front-end Developer", 75000.00f);
+        Job java_dev = new Job("Full Stack Java Developer", 95000.00f);
+        Job j4 = new Job("Front-end Developer", 78000.00f);
+        infotech_jobs.add(javascript_developer);
+        infotech_jobs.add(front_end_dev);
+        amazon_jobs.add(java_dev);
+        jobs3.add(j4);
 
-        Skill infotechAngularSkill = skillService.addSkill(new Skill("Front-End", 3, "Fair ", "Angular"));
-        Skill infotechJavaSkill = skillService.addSkill(new Skill("Back-End", 5, "Excellent ", "Java"));
-        Job infotechJob = jobService.addJob(new Job("Full Stack Java Developer", 90000.00, infotech));
-        infotechJob.setSkills(infotechJavaSkill);
-        infotechJob.setSkills(infotechAngularSkill);
+        Company infotech = new Company("Infotech Systems", new Address("1000N 4th St", "Fairfield", "IA", 52557), infotech_jobs);
+        Client amazon = new Client("Amazon", new Address("54 State St., Suite 308", "Albany", "NY", 12207), amazon_jobs, "Serve consumers through online and physical stores ", "focus on selection, price, and convenience", "www.amazon.com");
+        recruiterClients.add(amazon);
+        Recruiter kforce = new Recruiter("K-Force", new Address("14542 Harley dr", "Desmoine", "IA", 23452),recruiterClients);
+        kforce.setClients(recruiterClients);
 
-        Skill softribeJavaSkill = skillService.addSkill(new Skill("Back-End", 3, "Excellent ", "Java"));
-        Skill softribeReactSkill = skillService.addSkill(new Skill("Front-End", 3, "Excellent ", "React"));
-        Job softribeJob = jobService.addJob(new Job("Full Stack Java Developer", 120000.00, softribe));
-        softribeJob.setSkills(softribeReactSkill);
-        softribeJob.setSkills(softribeJavaSkill);
+        Application a1 = new Application(LocalDate.of(2022, 3, 30), "Solutions Architect Version");
+        Application a2 = new Application(LocalDate.of(2022, 4, 1), "Software Architect Version");
 
-        Skill microsoftDotnetSkill = skillService.addSkill(new Skill("Back-End", 10, "Excellent ", "Dotnet"));
-        Skill microsoftAngularSkill = skillService.addSkill(new Skill("Front-End", 3, "Fair ", "Angular"));
-        Skill microsoftReactSkill = skillService.addSkill(new Skill("Front-End", 3, "Excellent ", "React"));
-        Job microsoftJob = jobService.addJob(new Job("Full Stack Javascript Developer", 80000.00, microsoft));
-        microsoftJob.setSkills(microsoftAngularSkill);
-        microsoftJob.setSkills(microsoftReactSkill);
-        microsoftJob.setSkills(microsoftDotnetSkill);
+        a1.setJob(javascript_developer);
+        a2.setJob(front_end_dev);
+        List<Skill> skillList1 = new ArrayList<Skill>();
+        skillList1.add(new Skill("Back-End", 3, "Excellent ", "Javascript", javascript_developer));
+        skillList1.add(new Skill("Front-End", 3, "Fair ", "Angular", javascript_developer));
+        List<Skill> skillList2 = new ArrayList<Skill>();
+        skillList2.add(new Skill("Front-End", 4, "Excellent ", "React", front_end_dev));
+        skillList2.add(new Skill("Full Stack Developer", 3, "architecture setup", "C#", front_end_dev));
+        List<Skill> skillList3 = new ArrayList<Skill>();
+        skillList3.add(new Skill("system design", 3, "large systems design", "JAVA", java_dev));
+        skillList3.add(new Skill("system architecture", 3, "architecture setup", "C#", java_dev));
+        List<Skill> skillList4 = new ArrayList<Skill>();
+        skillList4.add(new Skill("system design", 3, "large systems design", "JAVA", j4));
+        skillList4.add(new Skill("Dev Ops", 10, "AWS Associate", "C#", j4));
+        javascript_developer.setCompany(infotech);
+        front_end_dev.setCompany(infotech);
+        java_dev.setCompany(amazon);
+        javascript_developer.setApplication(a1);
+        front_end_dev.setApplication(a2);
+        //j3.setApplication(a2);
+        //j4.setApplication(a2);
+        javascript_developer.setSkills(skillList1);
+        front_end_dev.setSkills(skillList2);
+        java_dev.setSkills(skillList3);
+        j4.setSkills(skillList4);
 
-        Skill amazonJavascriptSkill = skillService.addSkill(new Skill("Back-End", 3, "Excellent ", "Javascript"));
-        Skill amazonAngularSkill = skillService.addSkill(new Skill("Front-End", 3, "Fair ", "Angular"));
-        Job amazonJob = jobService.addJob(new Job("Full Stack Javascript Developer", 95000.00, amazon));
-        amazonJob.setSkills(amazonAngularSkill);
-        amazonJob.setSkills(amazonJavascriptSkill);
+        List<Interview> javascript_dev_interviews = new ArrayList<>();
+        Interview interview1 = new ScreeningInterview(LocalDate.of(2022, 02, 27), "+16147017379", "rmkaheto@gmail.com", "Raymond", "Success");
+        Interview interview2 = new TechnicalInterview(LocalDate.of(2022, 02, 27), "+16147017379", "rmkaheto@gmail.com", 30, "How many Years of experience do u have", Location.ONLINE);
+        Interview interview3 = new HiringManagerInterview(LocalDate.of(2022, 03, 30), "+16147017379", "rmkaheto@gmail.com", 15, LocalDate.of(2022, 04, 15));
+        javascript_dev_interviews.add(interview1);
+        javascript_dev_interviews.add(interview2);
+        javascript_dev_interviews.add(interview3);
 
-        Skill acentureReactSkill = skillService.addSkill(new Skill("Front-End", 4, "Excellent ", "React"));
-        Job acentureJob = jobService.addJob(new Job("Front-end Developer", 75000.00, acenture));
-        acentureJob.setSkills(acentureReactSkill);
+        List<Interview> front_end_dev_interviews = new ArrayList<>();
+        Interview interview4 = new ScreeningInterview(LocalDate.of(2022, 03, 10), "+16147017379", "rmkaheto@gmail.com", "Raymond", "Success");
+        Interview interview5 = new TechnicalInterview(LocalDate.of(2022, 03, 13), "+16147017379", "rmkaheto@gmail.com", 15, "What is your weakness?", Location.ONLINE);
+        Interview interview6 = new HiringManagerInterview(LocalDate.of(2022, 03, 17), "+16147017379", "rmkaheto@gmail.com", 80, LocalDate.of(2022, 04, 15));
+        front_end_dev_interviews.add(interview4);
+        front_end_dev_interviews.add(interview5);
+        front_end_dev_interviews.add(interview6);
 
-        Skill utopiaAngularSkill = skillService.addSkill(new Skill("Front-End", 2, "Fair ", "Angular"));
-        Job utopiaJob = jobService.addJob(new Job("Front-end Developer", 78000.00, utopia));
-        utopiaJob.setSkills(utopiaAngularSkill);
+        javascript_developer.setInterviews(javascript_dev_interviews);
+        front_end_dev.setInterviews(front_end_dev_interviews);
 
-
+        jobRepository.save(javascript_developer);
+        jobRepository.save(front_end_dev);
+        jobRepository.save(java_dev);
+        jobRepository.save(j4);
     }
 }

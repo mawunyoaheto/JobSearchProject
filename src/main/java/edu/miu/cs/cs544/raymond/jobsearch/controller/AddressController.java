@@ -28,9 +28,9 @@ public class AddressController {
         return ResponseEntity.ok(foundAddresses);
     }
 
-    @PostMapping("/address")
-    public ResponseEntity<Address> addAddress(@RequestBody Address address){
-        Address createdAddress = addressService.addAddress(address);
+    @PostMapping("/companies/{company_id}/address")
+    public ResponseEntity<Address> addAddress(@PathVariable long company_id, @RequestBody Address address){
+        Address createdAddress = addressService.addAddress(company_id,address);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdAddress.getId())
@@ -39,9 +39,9 @@ public class AddressController {
                 .body(createdAddress);
     }
 
-    @PutMapping(path = "/address/{address_id}")
-    public ResponseEntity<Address> updateAddress(@PathVariable long address_id, @RequestBody Address address){
-       Address updatedAddress = addressService.updateAddress(address_id,address);
+    @PutMapping(path = "/companies/{company_id}/address/{address_id}")
+    public ResponseEntity<Address> updateAddress(@PathVariable long company_id,@PathVariable long address_id, @RequestBody Address address){
+       Address updatedAddress = addressService.updateAddress(company_id,address_id,address);
        return ResponseEntity.ok(updatedAddress);
     }
 

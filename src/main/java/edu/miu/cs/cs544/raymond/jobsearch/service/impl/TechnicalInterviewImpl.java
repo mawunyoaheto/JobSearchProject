@@ -1,6 +1,9 @@
 package edu.miu.cs.cs544.raymond.jobsearch.service.impl;
 
+import edu.miu.cs.cs544.raymond.jobsearch.entity.Job;
 import edu.miu.cs.cs544.raymond.jobsearch.entity.TechnicalInterview;
+import edu.miu.cs.cs544.raymond.jobsearch.exception.ResourceNotFoundException;
+import edu.miu.cs.cs544.raymond.jobsearch.repository.JobRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.repository.TechnicalInterviewRepository;
 import edu.miu.cs.cs544.raymond.jobsearch.service.TechnicalInterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,10 @@ import java.util.List;
 public class TechnicalInterviewImpl implements TechnicalInterviewService {
     @Autowired
     private TechnicalInterviewRepository technicalInterviewRepository;
+
+    @Autowired
+    JobRepository jobRepository;
+
     @Override
     public TechnicalInterview getTechnicalInterviewById(long interview_id) {
         return  technicalInterviewRepository.getById(interview_id);
@@ -25,10 +32,11 @@ public class TechnicalInterviewImpl implements TechnicalInterviewService {
     }
 
     @Override
-    public TechnicalInterview addTechnicalInterview(TechnicalInterview technicalInterview) {
-        technicalInterviewRepository.save(technicalInterview);
-        long savedTechnicalInterviewId = technicalInterview.getId();
-        return technicalInterviewRepository.getById(savedTechnicalInterviewId);
+    public TechnicalInterview addTechnicalInterview(long job_id, TechnicalInterview technicalInterview) {
+       Job foundJob = jobRepository.findById(job_id).orElseThrow(() ->new ResourceNotFoundException("Job with given id not found"));
+       foundJob.addInterview(technicalInterview);
+       technicalInterview.setJob(foundJob);
+        return technicalInterviewRepository.save(technicalInterview);
     }
 
     @Override

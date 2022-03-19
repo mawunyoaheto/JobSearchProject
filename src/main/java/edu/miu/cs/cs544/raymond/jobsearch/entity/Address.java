@@ -14,7 +14,7 @@ public class Address implements Serializable {
     private String city;
     private String state;
     private int zipcode;
-    @OneToOne(mappedBy ="address")
+    @OneToOne(mappedBy ="address",cascade = CascadeType.ALL)
     private Company company;
 
 
@@ -65,9 +65,9 @@ public class Address implements Serializable {
     }
 
 //    @JsonBackReference
-    public Company getCompany() {
-        return company;
-    }
+//    public Company getCompany() {
+//        return company;
+//    }
 
     public void setCompany(Company company) {
         this.company = company;

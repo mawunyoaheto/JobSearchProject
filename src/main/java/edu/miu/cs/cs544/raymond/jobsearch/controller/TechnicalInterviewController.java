@@ -28,9 +28,9 @@ public class TechnicalInterviewController {
         return ResponseEntity.ok(listOfFoundTechnicalInterview);
     }
 
-    @PostMapping(path = "/technicalinterviews")
-    public ResponseEntity<TechnicalInterview> addTechnicalInterview(@RequestBody TechnicalInterview technicalInterview) {
-       TechnicalInterview createdTechnicalInterview = technicalInterviewService.addTechnicalInterview(technicalInterview);
+    @PostMapping(path = "/jobs/{job_id}/technicalinterviews")
+    public ResponseEntity<TechnicalInterview> addTechnicalInterview(@PathVariable long job_id, @RequestBody TechnicalInterview technicalInterview) {
+       TechnicalInterview createdTechnicalInterview = technicalInterviewService.addTechnicalInterview(job_id,technicalInterview);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdTechnicalInterview.getId())

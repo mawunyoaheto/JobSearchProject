@@ -13,7 +13,7 @@ public class Recruiter extends Company{
         super();
     }
 
-    public Recruiter(String name, Address address) {
+    public Recruiter(String name, Address address, List<Client> clients) {
         super(name, address);
         this.clients = clients;
     }

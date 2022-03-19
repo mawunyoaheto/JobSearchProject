@@ -8,7 +8,7 @@ public interface ScreeningInterviewService {
 
     public ScreeningInterview getScreeningInterviewById(long interview_id);
     public List<ScreeningInterview> getAllScreeningInterviews();
-    public ScreeningInterview addScreeningInterview(ScreeningInterview screeningInterview);
+    public ScreeningInterview addScreeningInterview(long job_id, ScreeningInterview screeningInterview);
     public ScreeningInterview updateScreeningInterview(long interview_id, ScreeningInterview screeningInterview);
     public void deleteScreeningInterview(long interview_id);
 }

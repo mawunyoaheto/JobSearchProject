@@ -31,9 +31,9 @@ public class SkillController {
         return ResponseEntity.ok(listOfFoundSkills);
     }
 
-    @PostMapping(path = "/skills")
-    public ResponseEntity<Skill> addSkill(@RequestBody Skill skill) {
-        Skill createdSkill = skillService.addSkill(skill);
+    @PostMapping(path = "/jobs/{job_id}/skills")
+    public ResponseEntity<Skill> addSkill(@PathVariable long job_id, @RequestBody Skill skill) {
+        Skill createdSkill = skillService.addSkill(job_id,skill);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdSkill.getId())
@@ -42,13 +42,13 @@ public class SkillController {
                 .body(createdSkill);
     }
 
-    @PutMapping(path = "/skills/{skill_id}")
-    public ResponseEntity<Skill> updateSkill(@PathVariable long skill_id, @RequestBody Skill skillDetails) {
-        Skill updatedSkill = skillService.updateSkill(skill_id, skillDetails);
+    @PutMapping(path = "/jobs/{job_id}/skills/{skill_id}")
+    public ResponseEntity<Skill> updateSkill(@PathVariable long job_id,@PathVariable long skill_id, @RequestBody Skill skillDetails) {
+        Skill updatedSkill = skillService.updateSkill(job_id,skill_id, skillDetails);
         return  ResponseEntity.ok(updatedSkill);
     }
 
-    @GetMapping(path = "skills/with-salary-greater-than")
+    @GetMapping(path = "skills/salary")
     public ResponseEntity<List<Skill>> getSkillsWithSalaryGreaterThan(@RequestParam("amount") double amount) {
         List<Skill> listOfSkillsWithSalaryGreaterThan = skillService.skillsWithJobSalaryGreaterThan(amount);
         return ResponseEntity.ok(listOfSkillsWithSalaryGreaterThan);
